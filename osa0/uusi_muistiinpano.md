@@ -5,10 +5,8 @@ sequenceDiagram
 
     browser --> server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server 
-    browser --> server: {note: "uusi"}
+    server --> browser: 302 redirection
     deactivate server
-
-    Note right of browser: The browser adds new note to notes
 
     browser --> server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server

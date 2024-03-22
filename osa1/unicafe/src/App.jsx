@@ -14,31 +14,39 @@ const Header = (props) => {
   )
 }
 
-const All = (props) => {
+const All = (eka, toka, kolmas) => {
   return (
-    <div>all {props.eka + props.toka + props.kolmas}</div>
+    eka + toka + kolmas
   )
 }
 
-const Average = (props) => {
-  if (props.eka > 0){
+const Average = (eka, toka, kolmas) => {
+  if (eka > 0){
     return (
-      <div>average {(props.eka - props.kolmas)/(props.eka + props.toka + props.kolmas)}</div>
+      (eka - kolmas)/(eka + toka + kolmas)
   )
   }
   return (
-    <div>average 0</div>
+    0
   )
 }
 
-const Positive = (props) => {
-  if (props.eka > 0){
+const Positive = (eka, toka, kolmas) => {
+  if (eka > 0){
     return (
-      <div>positive {(props.eka / (props.eka + props.toka + props.kolmas))*100} %</div>
+      (eka / (eka + toka + kolmas))*100
     )
   }
   return (
-    <div>positive 0</div>
+    0
+  )
+}
+const StatisticLine = (props) => {
+  return (
+    <tr>
+      <td>{props.teksti}</td>
+      <td>{props.counter}</td>
+    </tr>
   )
 }
 
@@ -46,16 +54,20 @@ const Statistics = (props) => {
     let good = props.good
     let neutral = props.neutral
     let bad = props.bad
+    let all = All(good, neutral, bad)
+
     if (good > 0){
       return (
-        <div>
-          <Display teksti='good ' counter={good}/>
-          <Display teksti='neutral 'counter={neutral}/>
-          <Display teksti='bad 'counter={bad}/>
-          <All eka={good} toka={neutral} kolmas={bad}/>
-          <Average eka={good} toka={neutral} kolmas={bad}/>
-          <Positive eka={good} toka={neutral} kolmas={bad}/>
-        </div>
+        <table>
+          <tbody>
+            <StatisticLine teksti='good ' counter={good}/>
+            <StatisticLine teksti='neutral 'counter={neutral}/>
+            <StatisticLine teksti='bad 'counter={bad}/>
+            <StatisticLine teksti='all ' counter={all}/>
+            <StatisticLine teksti='average ' counter={Average(good, neutral, bad)}/>
+            <StatisticLine teksti='positive ' counter={Positive(good, neutral,bad) + '%'}/>
+          </tbody>
+          </table>
       )
     }
     return (
@@ -64,6 +76,12 @@ const Statistics = (props) => {
       </div>
     )
 }
+
+const Button = (props) => {
+  return (
+    <button onClick={()=> props.lisays(props.arvo +1)}>{props.nimi}</button>
+  )
+} 
 
 const App = () => {
   const otsikko = 'give feedback'
@@ -76,9 +94,9 @@ const App = () => {
   return (
     <div>
       <Header otsikko={otsikko}/>
-      <button onClick={()=> setGood(good +1)}>good</button>
-      <button onClick={()=> setNeutral(neutral+1)}>neutral</button>
-      <button onClick={()=> setBad(bad+1)}>bad</button>
+      <Button lisays={setGood} arvo={good} nimi={'good'}/>
+      <Button lisays={setNeutral} arvo={neutral} nimi={'neutral'}/>
+      <Button lisays={setBad} arvo={bad} nimi={'bad'}/>
       <Header otsikko={ala_otsik}/>
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>

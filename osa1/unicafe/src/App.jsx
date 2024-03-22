@@ -42,6 +42,22 @@ const Positive = (props) => {
   )
 }
 
+const Statistics = (props) => {
+    let good = props.good
+    let neutral = props.neutral
+    let bad = props.bad
+  return (
+    <div>
+      <Display teksti='good ' counter={good}/>
+      <Display teksti='neutral 'counter={neutral}/>
+      <Display teksti='bad 'counter={bad}/>
+      <All eka={good} toka={neutral} kolmas={bad}/>
+      <Average eka={good} toka={neutral} kolmas={bad}/>
+      <Positive eka={good} toka={neutral} kolmas={bad}/>
+    </div>
+  )
+}
+
 const App = () => {
   const otsikko = 'give feedback'
   const ala_otsik = 'statistics'
@@ -57,12 +73,7 @@ const App = () => {
       <button onClick={()=> setNeutral(neutral+1)}>neutral</button>
       <button onClick={()=> setBad(bad+1)}>bad</button>
       <Header otsikko={ala_otsik}/>
-      <Display teksti='good ' counter={good}/>
-      <Display teksti='neutral 'counter={neutral}/>
-      <Display teksti='bad 'counter={bad}/>
-      <All eka={good} toka={neutral} kolmas={bad}/>
-      <Average eka={good} toka={neutral} kolmas={bad}/>
-      <Positive eka={good} toka={neutral} kolmas={bad}/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }

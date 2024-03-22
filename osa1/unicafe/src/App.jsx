@@ -14,7 +14,33 @@ const Header = (props) => {
   )
 }
 
+const All = (props) => {
+  return (
+    <div>all {props.eka + props.toka + props.kolmas}</div>
+  )
+}
 
+const Average = (props) => {
+  if (props.eka > 0){
+    return (
+      <div>average {(props.eka - props.kolmas)/(props.eka + props.toka + props.kolmas)}</div>
+  )
+  }
+  return (
+    <div>average 0</div>
+  )
+}
+
+const Positive = (props) => {
+  if (props.eka > 0){
+    return (
+      <div>positive {(props.eka / (props.eka + props.toka + props.kolmas))*100} %</div>
+    )
+  }
+  return (
+    <div>positive 0</div>
+  )
+}
 
 const App = () => {
   const otsikko = 'give feedback'
@@ -34,6 +60,9 @@ const App = () => {
       <Display teksti='good ' counter={good}/>
       <Display teksti='neutral 'counter={neutral}/>
       <Display teksti='bad 'counter={bad}/>
+      <All eka={good} toka={neutral} kolmas={bad}/>
+      <Average eka={good} toka={neutral} kolmas={bad}/>
+      <Positive eka={good} toka={neutral} kolmas={bad}/>
     </div>
   )
 }

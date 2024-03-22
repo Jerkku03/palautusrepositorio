@@ -46,16 +46,23 @@ const Statistics = (props) => {
     let good = props.good
     let neutral = props.neutral
     let bad = props.bad
-  return (
-    <div>
-      <Display teksti='good ' counter={good}/>
-      <Display teksti='neutral 'counter={neutral}/>
-      <Display teksti='bad 'counter={bad}/>
-      <All eka={good} toka={neutral} kolmas={bad}/>
-      <Average eka={good} toka={neutral} kolmas={bad}/>
-      <Positive eka={good} toka={neutral} kolmas={bad}/>
-    </div>
-  )
+    if (good > 0){
+      return (
+        <div>
+          <Display teksti='good ' counter={good}/>
+          <Display teksti='neutral 'counter={neutral}/>
+          <Display teksti='bad 'counter={bad}/>
+          <All eka={good} toka={neutral} kolmas={bad}/>
+          <Average eka={good} toka={neutral} kolmas={bad}/>
+          <Positive eka={good} toka={neutral} kolmas={bad}/>
+        </div>
+      )
+    }
+    return (
+      <div>
+        <p>No feedback given</p>
+      </div>
+    )
 }
 
 const App = () => {

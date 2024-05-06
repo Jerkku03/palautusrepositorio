@@ -23,13 +23,37 @@ const App = () => {
     )
   }
 
+  const Lisaa = () => {
+    const uudetPist = [...points]
+    uudetPist[selected] += 1
+    setPoints(uudetPist)
+  }
+
+  const Aanesta = () => {
+    return (
+      <button onClick={Lisaa}>vote</button>
+    )
+  }
+
   const [selected, setSelected] = useState(0)
+
+  
+  const [points, setPoints] = useState([0, 0, 0, 0, 0, 0, 0])
+
+  const eniten = points.indexOf(Math.max(...points))
+
+  console.log(points)
 
   return (
     <div>
       {anecdotes[selected]}
       <br/>
+      has {points[selected]} votes
+      <br />
+      <Aanesta/>
       <Button/>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[eniten]}
     </div>
   )
 }

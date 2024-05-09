@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 const Course = (props) => {
-  const kaikki = props.course.parts.map(kurssi => <li key={kurssi.id}>{kurssi.name}</li>)
+  const kaikki = props.course.parts.map(kurssi => <li key={kurssi.id}>{kurssi.name} {kurssi.exercises}</li>)
   return (
     <div>
       <h1>{props.course.name}</h1>

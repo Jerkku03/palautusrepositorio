@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-
-
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -43,24 +44,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-      filter shown with<input value={nimiHaku} onChange={(e) => setNimiHaku(e.target.value)} />
-      </div>
-      <form>
-        <h2>add a new</h2>
-        <div>
-          name: <input value={newName} onChange={handleNoteChange}/>
-          <br />
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit" onClick={addNote}>add</button>
-        </div>
-      </form>
+      <Filter value={nimiHaku} onChange={(e) => setNimiHaku(e.target.value)} />
+      <PersonForm newName={newName} handleNoteChange={handleNoteChange} newNumber={newNumber} handleNumberChange={handleNumberChange} addNote={addNote}/>
       <h2>Numbers</h2>
-      {persons.filter(nimi => nimi.name.toLowerCase().includes(nimiHaku)).map(nimi => 
-        <p key={nimi.name}>{nimi.name} {nimi.number}</p>
-      )}
+      <Persons persons={persons} nimiHaku={nimiHaku}/>
     </div>
   )
 

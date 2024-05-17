@@ -29,15 +29,20 @@ const App = () => {
 
   const addNote = (event) => {
     event.preventDefault()
-    if (persons.some(p => p.name === newName)){
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
+
     const noteObject = {
       name: newName,
       number: newNumber
     }
-    
+
+    if (persons.some(p => p.name === newName)){
+      if (window.confirm(`${newName} is already added to phonebook, replace old number with new?`)){
+        const vanha = persons.find(n => n.name === newName)
+        noteService
+          .update(vanha.id, noteObject).then(returnedNote => {
+            setPersons(persons.map(person => person.id !== vanha.id ? person : returnedNote.data))})
+      } return}
+
     noteService
       .create(noteObject)
       .then(response => {

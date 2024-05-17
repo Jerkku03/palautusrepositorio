@@ -4,12 +4,14 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import noteService from './services/notes'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nimiHaku, setNimiHaku] = useState('')
+  const [successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     noteService
@@ -41,12 +43,24 @@ const App = () => {
         noteService
           .update(vanha.id, noteObject).then(returnedNote => {
             setPersons(persons.map(person => person.id !== vanha.id ? person : returnedNote.data))})
+            setSuccessMessage(
+              `${vanha.name} number was changed`
+            )
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 5000)
       } return}
 
     noteService
       .create(noteObject)
       .then(response => {
         setPersons(persons.concat(response.data))
+        setSuccessMessage(
+          `${newName} was added`
+        )
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
       })
     setNewName('')
     setNewNumber('')
@@ -58,9 +72,14 @@ const App = () => {
     if (window.confirm(`haluatko poistaa henkilön ${poistettava[0].name}`)){
       noteService
         .poista(id).then(returnedNote => {
-          console.log(returnedNote)
           setPersons(persons.filter(n => n.id !== returnedNote.data.id))
-        })
+          setSuccessMessage(
+            `${poistettava[0].name} was removed from server`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+    })
         .catch(error => {
           alert(
             `the person '${poistettava.name}' was already deleted from server`
@@ -73,6 +92,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={successMessage}/>
       <Filter value={nimiHaku} onChange={(e) => setNimiHaku(e.target.value)} />
       <PersonForm newName={newName} handleNoteChange={handleNoteChange} newNumber={newNumber} handleNumberChange={handleNumberChange} addNote={addNote}/>
       <h2>Numbers</h2>

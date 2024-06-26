@@ -28,8 +28,13 @@ app.get('/api/persons', (request, response) => {
   response.send(notes)
 })
 
-app.get('/api/notes', (request, response) => {
-  response.json(notes)
+app.get('/info', (request, response) => {
+    peopleAmount = notes.length
+    const date = new Date()
+    tied = `Phonebook has info for ${peopleAmount} people`
+    aika = `${date.toDateString()}`
+
+  response.send(`<p> ${tied} <p> <p> ${aika} ${date.toTimeString()}<p>`)
 })
 
 const PORT = 3001

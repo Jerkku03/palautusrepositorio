@@ -57,10 +57,11 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...notes.map(n => Number(n.id)))
-    : 0
-  return String(maxId + 1)
+  const min = notes.length > 0
+  const max = 150
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return String(Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled))
 }
 
 app.post('/api/persons', (request, response) => {

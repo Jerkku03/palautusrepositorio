@@ -2,7 +2,7 @@ const express = require('express')
 var morgan = require('morgan')
 const app = express()
 const cors = require('cors')
-require('dotenv').config();
+require('dotenv').config()
 const Person = require('./models/person')
 
 
@@ -14,29 +14,25 @@ morgan.token('body', (request) => JSON.stringify(request.body))
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
-      response.json(persons.map(person => person.toJSON()))
-      })
+    response.json(persons.map(person => person.toJSON()))
+  })
 })
 
 app.get('/info', (request, response) => {
-    Person.find({}).then(persons => {
-      peopleAmount = persons.length
-    })
-    const date = new Date()
-    tied = `Phonebook has info for ${peopleAmount} people`
-    aika = `${date.toDateString()}`
-
-  response.send(`<p> ${tied} <p> <p> ${aika} ${date.toTimeString()}<p>`)
+  const date = new Date()
+  Person.find({}).then(persons => {
+    response.send(`<p> Phonebook has info for ${persons.length} people <p> <p> ${date.toDateString()} ${date.toTimeString()}<p>`)
+  })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
-        if (person) {
-            response.json(person.toJSON())
-          } else {
-            response.status(404).end()
-          }
+      if (person) {
+        response.json(person.toJSON())
+      } else {
+        response.status(404).end()
+      }
     })
     .catch(error => next(error))
 })
@@ -49,14 +45,6 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-const generateId = () => {
-  const min = notes.length > 0
-  const max = 150
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return String(Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled))
-}
-
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
@@ -64,8 +52,8 @@ app.post('/api/persons', (request, response, next) => {
   const personNumber = body.number
 
   if (!body.name || !body.number) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+    return response.status(400).json({
+      error: 'content missing'
     })
   }
 
@@ -78,23 +66,23 @@ app.post('/api/persons', (request, response, next) => {
     response.json(savedPerson)
   })
 
-  .catch(error => next(error))
-  
+    .catch(error => next(error))
+
 })
 
-app.put('/api/persons/:id', (request, response, next) =>{
+app.put('/api/persons/:id', (request, response, next) => {
   const body = request.body
 
-    const person = {
-      name: body.name,
-      number: body.number,
-    }
+  const person = {
+    name: body.name,
+    number: body.number,
+  }
 
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
-      .then(updatedPerson => {
-        response.json(updatedPerson)
-      })
-      .catch(error => next(error))
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 const errorHandler = (error, request, response, next) => {
@@ -103,9 +91,9 @@ const errorHandler = (error, request, response, next) => {
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
   }
-    else if (error.name === 'ValidationError') {
-      return response.status(400).json({ error: error.message })
-    }
+  else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }

@@ -1,21 +1,19 @@
 const notesRouter = require('express').Router()
 const Blog = require('../models/blog')
+require('express-async-errors')
 
 notesRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user',{ username: 1, name: 1, id: 1 })
 	  response.json(blogs)
 })
 
-notesRouter.get('/:id', (request, response, next) => {
-  Blog.findById(request.params.id)
-    .then(note => {
+notesRouter.get('/:id', async (request, response, next) => {
+  const note = await Blog.findById(request.params.id)
       if (note) {
         response.json(note)
       } else {
         response.status(404).end()
       }
-    })
-    .catch(error => next(error))
 })
 
 notesRouter.post('/', (request, response, next) => {

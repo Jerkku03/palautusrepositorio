@@ -35,6 +35,13 @@ test('right amount of blogs', async () => {
   assert.deepStrictEqual(response.body.length, helper.initialBlogs.length)
 })
 
+test('id is right format', async () => {
+  const response = await api.get('/api/blog')
+
+  if ('id' in response.body){return true}
+  false
+})
+
 after(async () => {
   await mongoose.connection.close()
 })

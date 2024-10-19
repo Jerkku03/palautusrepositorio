@@ -35,12 +35,41 @@ test('right amount of blogs', async () => {
   assert.deepStrictEqual(response.body.length, helper.initialBlogs.length)
 })
 
+test('blogs can be added', async () => {
+  const newBlog = {
+    _id: "5a422b3a1b54a676234d17f1",
+    title: "anonical string reduction",
+    author: "dsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 11,
+    __v: 0
+  }
+
+  await api
+    .post('/api/blog')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+  const response = await api.get('/api/blog')
+
+  assert.deepStrictEqual(response.body.length, helper.initialBlogs.length + 1)
+})
+
+test('likes without value', async () => {
+  const response = await api.get('/api/blog')
+
+  if ('likes' != helper.initialBlogs.body){response.body.likes == 0}
+})
+
 test('id is right format', async () => {
   const response = await api.get('/api/blog')
 
   if ('id' in response.body){return true}
   false
 })
+
+
 
 after(async () => {
   await mongoose.connection.close()

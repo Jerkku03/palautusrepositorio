@@ -19,6 +19,12 @@ notesRouter.get('/:id', async (request, response, next) => {
 notesRouter.post('/', (request, response, next) => {
   const body = request.body
 
+  if (body.title == undefined || body.url == undefined){
+    response.status(400)
+    .catch(error => next(error))
+    return 
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,

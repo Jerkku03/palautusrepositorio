@@ -69,6 +69,19 @@ test('id is right format', async () => {
   false
 })
 
+test.only('not include title or url', async () => {
+  const newBlog = {
+    author: "dsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 11,
+    __v: 0
+  }
+
+  await api
+    .post('/api/blog')
+    .send(newBlog)
+    .expect(400)
+})
 
 
 after(async () => {

@@ -69,7 +69,7 @@ test('id is right format', async () => {
   false
 })
 
-test.only('not include title or url', async () => {
+test('not include title or url', async () => {
   const newBlog = {
     author: "dsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
@@ -81,6 +81,28 @@ test.only('not include title or url', async () => {
     .post('/api/blog')
     .send(newBlog)
     .expect(400)
+})
+
+test.only('delete blog', async () => {
+
+  await api
+    .delete('/api/blog/5a422a851b54a676234d17f7')
+    .expect(204)
+})
+
+test.only('muokkaa blogia', async () => {
+  const newBlog = {
+    id: "5a422a851b54a676234d17f7",
+    title: "jj patterns",
+    author: "Michael Chan",
+    url: "https://reactpatterns.com/",
+    likes: 5
+  }
+
+  await api
+    .put('/api/blog/5a422a851b54a676234d17f7')
+    .send(newBlog)
+    .expect(newBlog)
 })
 
 

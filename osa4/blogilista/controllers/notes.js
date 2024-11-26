@@ -1,10 +1,15 @@
+const mongoose = require('mongoose')
 const notesRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 require('express-async-errors')
 
+
 notesRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({}).populate('user',{ username: 1, name: 1, id: 1 })
-	  response.json(blogs)
+  const blogs = await Blog
+    .find({})
+    .populate('user')
+	response.json(blogs)
 })
 
 notesRouter.get('/:id', async (request, response, next) => {
@@ -16,8 +21,11 @@ notesRouter.get('/:id', async (request, response, next) => {
       }
 })
 
-notesRouter.post('/', (request, response, next) => {
+notesRouter.post('/', async (request, response, next) => {
   const body = request.body
+
+  const user = await User.findById(body.userId)
+  console.log(user)
 
   if (body.title == undefined || body.url == undefined){
     response.status(400)
@@ -29,15 +37,15 @@ notesRouter.post('/', (request, response, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user: user._id
   })
-
-  blog.save()
-    .then(savedNote => {
-      response.status(201).json(savedNote)
-    })
-    .catch(error => next(error))
+  
+const savedNote = await blog.save()
+  user.blogs = user.blogs.concat(savedNote._id)
+  await user.save()
 })
+
 
 notesRouter.delete('/:id', async (request, response, next) => {
   const poistettu = await Blog.findByIdAndDelete(request.params.id)

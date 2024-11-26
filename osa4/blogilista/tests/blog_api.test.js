@@ -11,15 +11,19 @@ const Blog = require('../models/blog')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
+  const newBlog = {
+    author: "dsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 11,
+    __v: 0,
+    userId:"6745d5ac57560d2cfdab5c10"
+  }
 
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
+  await api
+    .post('/api/blog')
+    .send(newBlog)
+    .expect(201)
 
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[2])
-  await blogObject.save()
 })
 
 test('notes are returned as json', async () => {
@@ -35,14 +39,14 @@ test('right amount of blogs', async () => {
   assert.deepStrictEqual(response.body.length, helper.initialBlogs.length)
 })
 
-test('blogs can be added', async () => {
+test.only('blogs can be added', async () => {
   const newBlog = {
-    _id: "5a422b3a1b54a676234d17f1",
     title: "anonical string reduction",
     author: "dsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
     likes: 11,
-    __v: 0
+    __v: 0,
+    userId:"6745d5ac57560d2cfdab5c10"
   }
 
   await api
@@ -83,14 +87,14 @@ test('not include title or url', async () => {
     .expect(400)
 })
 
-test.only('delete blog', async () => {
+test('delete blog', async () => {
 
   await api
     .delete('/api/blog/5a422a851b54a676234d17f7')
     .expect(204)
 })
 
-test.only('muokkaa blogia', async () => {
+test('muokkaa blogia', async () => {
   const newBlog = {
     id: "5a422a851b54a676234d17f7",
     title: "jj patterns",

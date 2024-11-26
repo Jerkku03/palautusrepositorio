@@ -5,7 +5,7 @@ const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-const helper = require('../tests/test_helper')
+const helper = require('./test_helper')
 const api = supertest(app)
 const Blog = require('../models/blog')
 //...
@@ -15,7 +15,7 @@ describe('when there is initially one user at db', () => {
     await User.deleteMany({})
 
     const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
+    const user = new User({ username: 'root', passwordHash, userId:"6745d5ac57560d2cfdab5c10"})
 
     await user.save()
   })
@@ -24,6 +24,7 @@ describe('when there is initially one user at db', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
+      _id: "6745d5ac57560d2cfdab5c10",
       username: 'mluukkai',
       name: 'Matti Luukkainen',
       password: 'salainen',
@@ -36,9 +37,16 @@ describe('when there is initially one user at db', () => {
       .expect('Content-Type', /application\/json/)
 
     const usersAtEnd = await helper.usersInDb()
-    assert.strictEqual(usersAtEnd.length, usersAtStart.length + 1)
+    console.log(usersAtEnd)
+
+    assert.deepStrictEqual(usersAtEnd.length, usersAtStart.length + 1)
 
     const usernames = usersAtEnd.map(u => u.username)
-    assert(usernames.includes(newUser.username))
+    assert.strictEqual(usernames.includes(newUser.username), true)
   })
 })
+
+after(async () => {
+  await mongoose.connection.close()
+})
+

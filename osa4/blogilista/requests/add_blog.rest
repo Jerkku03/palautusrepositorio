@@ -5,6 +5,5 @@ Content-Type: application/json
     "title": "olipa",
     "author": "joku",
     "url": "htps",
-    "likes": 10,
-    "userId":"6745e2baaf6dc433bc68b962"
+    "likes": 10
 }

@@ -8,7 +8,7 @@ require('express-async-errors')
 notesRouter.get('/', async (request, response) => {
   const blogs = await Blog
     .find({})
-    .populate('user')
+    .populate('user', {username: 1})
 	response.json(blogs)
 })
 
@@ -24,8 +24,7 @@ notesRouter.get('/:id', async (request, response, next) => {
 notesRouter.post('/', async (request, response, next) => {
   const body = request.body
 
-  const user = await User.findById(body.userId)
-  console.log(user)
+  const user = await User.findOne()
 
   if (body.title == undefined || body.url == undefined){
     response.status(400)

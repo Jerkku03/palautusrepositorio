@@ -11,19 +11,15 @@ const Blog = require('../models/blog')
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  const newBlog = {
-    author: "dsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 11,
-    __v: 0,
-    userId:"6745d5ac57560d2cfdab5c10"
-  }
 
-  await api
-    .post('/api/blog')
-    .send(newBlog)
-    .expect(201)
+  let blogObject = new Blog(helper.initialBlogs[0])
+  await blogObject.save()
 
+  blogObject = new Blog(helper.initialBlogs[1])
+  await blogObject.save()
+
+  blogObject = new Blog(helper.initialBlogs[2])
+  await blogObject.save()
 })
 
 test('notes are returned as json', async () => {
@@ -39,14 +35,15 @@ test('right amount of blogs', async () => {
   assert.deepStrictEqual(response.body.length, helper.initialBlogs.length)
 })
 
-test.only('blogs can be added', async () => {
+test('blogs can be added', async () => {
   const newBlog = {
     title: "anonical string reduction",
     author: "dsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
     likes: 11,
     __v: 0,
-    userId:"6745d5ac57560d2cfdab5c10"
+    //lisää userId tietokannasta
+    userId: '6745fb55960754431313a3d8'
   }
 
   await api

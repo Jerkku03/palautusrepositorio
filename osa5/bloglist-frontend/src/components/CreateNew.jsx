@@ -3,6 +3,9 @@ import blogService from '../services/blogs'
 const Cratenew = ({title, setTitle, author, setAuthor, url, setUrl, setErrorMessage, successMessage, setSuccessMessage}) => {
     const handleBlog = async (event) =>{
         setSuccessMessage(`a new blog ${title} by ${author} added`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 4000)
         event.preventDefault()
         try {
             const blog = await blogService.create({title, author, url})

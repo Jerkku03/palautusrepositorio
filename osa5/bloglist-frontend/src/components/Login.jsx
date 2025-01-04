@@ -1,4 +1,5 @@
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
 const Login = ({username, setUsername, password, setPassword, setUser, setErrorMessage}) => {
     const handleLogin = async (event) => {
@@ -12,6 +13,7 @@ const Login = ({username, setUsername, password, setPassword, setUser, setErrorM
             window.localStorage.setItem(
               'loggedNoteappUser', JSON.stringify(user)
             ) 
+            blogService.setToken(user.token)
             setUser(user)
             setUsername('')
             setPassword('')

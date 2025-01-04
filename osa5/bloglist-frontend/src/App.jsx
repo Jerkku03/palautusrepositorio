@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateNew from './components/CreateNew'
+import Notification from './components/Notification'
+import SuccessNotification from './components/SuccessNotification'
 
 
 const App = () => {
@@ -11,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -33,14 +36,17 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+    
+    <Notification message={errorMessage} />
+    <SuccessNotification message={successMessage} />
 
-    {!user && <Login username={username} password={password} setUsername={setUsername} setPassword={setPassword} user={user} setUser={setUser} errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>}
+    {!user && <Login username={username} password={password} setUsername={setUsername} setPassword={setPassword} user={user} setUser={setUser} errorMessage={errorMessage} setErrorMessage={setErrorMessage} />}
 
     {user && <div>
       <p>{user.name} logged in</p>
       </div>} 
     
-    {user && <CreateNew author={author} setAuthor={setAuthor} title={title} setTitle={setTitle} url={url} setUrl={setUrl} />}
+    {user && <CreateNew author={author} setAuthor={setAuthor} title={title} setTitle={setTitle} url={url} setUrl={setUrl} errorMessage={errorMessage} successMessage={successMessage} setSuccessMessage={setSuccessMessage}/>}
 
     <button onClick={() => {window.localStorage.removeItem('loggedNoteappUser')}}>logout</button>
 

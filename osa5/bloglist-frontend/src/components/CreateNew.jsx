@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Cratenew = ({title, setTitle, author, setAuthor, url, setUrl, setErrorMessage, successMessage, setSuccessMessage, blogFormRef, blogService}) => {
+const Cratenew = ({setErrorMessage, successMessage, setSuccessMessage, blogFormRef, blogService}) => {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
 
     const handleBlog = async (event) =>{
         setSuccessMessage(`a new blog ${title} by ${author} added`)

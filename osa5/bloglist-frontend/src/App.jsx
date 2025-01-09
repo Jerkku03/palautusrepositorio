@@ -15,9 +15,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -49,7 +46,7 @@ const App = () => {
       </div>} 
 
     <Togglable buttonLabel="new blog" ref={blogFormRef}>  
-    {user && <CreateNew author={author} setAuthor={setAuthor} title={title} setTitle={setTitle} url={url} setUrl={setUrl} errorMessage={errorMessage} successMessage={successMessage} setSuccessMessage={setSuccessMessage} blogFormRef={blogFormRef} blogService={blogService}/>}
+    {user && <CreateNew errorMessage={errorMessage} successMessage={successMessage} setSuccessMessage={setSuccessMessage} blogFormRef={blogFormRef} blogService={blogService}/>}
       </Togglable>
     <button onClick={() => {window.localStorage.removeItem('loggedNoteappUser')}}>logout</button>
 

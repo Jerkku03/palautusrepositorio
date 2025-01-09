@@ -1,6 +1,7 @@
 import blogService from '../services/blogs'
 
-const Cratenew = ({title, setTitle, author, setAuthor, url, setUrl, setErrorMessage, successMessage, setSuccessMessage}) => {
+const Cratenew = ({title, setTitle, author, setAuthor, url, setUrl, setErrorMessage, successMessage, setSuccessMessage, blogFormRef, blogService}) => {
+
     const handleBlog = async (event) =>{
         setSuccessMessage(`a new blog ${title} by ${author} added`)
         setTimeout(() => {
@@ -8,17 +9,17 @@ const Cratenew = ({title, setTitle, author, setAuthor, url, setUrl, setErrorMess
         }, 4000)
         event.preventDefault()
         try {
-            const blog = await blogService.create({title, author, url})
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-        }
-        catch (exception) {
+          blogService.create({title, author, url})
+          } catch (exception) {
             setErrorMessage('wrong credentials')
             setTimeout(() => {
               setErrorMessage(null)
             }, 5000)
-          }
+          } 
+          setTitle('')
+          setAuthor('')
+          setUrl('')
+          blogFormRef.current.toggleVisibility()
         }
     return (
         <>

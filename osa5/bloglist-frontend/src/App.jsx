@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import CreateNew from './components/CreateNew'
 import Notification from './components/Notification'
 import SuccessNotification from './components/SuccessNotification'
+import Togglable from './components/Togglable'
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -45,9 +47,10 @@ const App = () => {
     {user && <div>
       <p>{user.name} logged in</p>
       </div>} 
-    
-    {user && <CreateNew author={author} setAuthor={setAuthor} title={title} setTitle={setTitle} url={url} setUrl={setUrl} errorMessage={errorMessage} successMessage={successMessage} setSuccessMessage={setSuccessMessage}/>}
 
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>  
+    {user && <CreateNew author={author} setAuthor={setAuthor} title={title} setTitle={setTitle} url={url} setUrl={setUrl} errorMessage={errorMessage} successMessage={successMessage} setSuccessMessage={setSuccessMessage} blogFormRef={blogFormRef} blogService={blogService}/>}
+      </Togglable>
     <button onClick={() => {window.localStorage.removeItem('loggedNoteappUser')}}>logout</button>
 
     {user && blogs.map(blog =>

@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
 
 const SuccessNotification = ({ message }) => {
-    if (message === null) {
-      return null
-    }
-  
-    return (
-      <div>
-        {message}
-      </div>
-    )
+  if (message === null) {
+    return null
   }
 
-  export default SuccessNotification
+  return (
+    <div>
+      {message}
+    </div>
+  )
+}
+
+export default SuccessNotification

@@ -1,8 +1,8 @@
-import Togglable from "./Togglable"
-import blogService from "../services/blogs"
-import { useState } from "react"
+import Togglable from './Togglable'
+import blogService from '../services/blogs'
+import { useState } from 'react'
 
-const Blog = ({ blog , user}) => {
+const Blog = ({ blog , user }) => {
   const [likes, setLikes] = useState(blog.likes)
 
   const blogStyle = {
@@ -15,7 +15,7 @@ const Blog = ({ blog , user}) => {
 
   const Like = () => {
     setLikes(likes + 1)
-    blogService.update(blog.id, {id: blog.id, title: blog.title, author: blog.author, url: blog.url, likes: blog.likes += 1})
+    blogService.update(blog.id, { id: blog.id, title: blog.title, author: blog.author, url: blog.url, likes: blog.likes += 1 })
   }
 
   const Poista = () => {
@@ -23,22 +23,22 @@ const Blog = ({ blog , user}) => {
       blogService.poista(blog.id)
     }
     window.location.reload()
-    
+
   }
-  
+
   return (
-  <div style={blogStyle}>
-    {blog.title}
-    <Togglable buttonLabel="view">
-      <br />
-      {blog.url} <br />
+    <div style={blogStyle}>
+      {blog.title}
+      <Togglable buttonLabel="view">
+        <br />
+        {blog.url} <br />
       likes {likes} <button onClick={() => Like()}>like</button><br />
-      {blog.author} 
-      </Togglable>  
+        {blog.author}
+      </Togglable>
       {blog.user.username === user.username && (
-      <button onClick={() => Poista()}>delete</button>
+        <button onClick={() => Poista()}>delete</button>
       )}
-  </div>
+    </div>
   )
 }
 

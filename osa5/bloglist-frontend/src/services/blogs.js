@@ -31,4 +31,4 @@ const poista = async (id) => {
   return response.data
 }
 
-export default { getAll, create, update, setToken, poista}
+export default { getAll, create, update, setToken, poista }

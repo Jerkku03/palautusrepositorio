@@ -51,7 +51,7 @@ const App = () => {
     <button onClick={() => {window.localStorage.removeItem('loggedNoteappUser')}}>logout</button>
 
     {user && blogs.map(blog =>
-        <Blog key={user.id} blog={blog} />
+        <Blog key={user.id} blog={blog} user={user} />
       )}
 
       

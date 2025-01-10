@@ -2,7 +2,7 @@ import Togglable from "./Togglable"
 import blogService from "../services/blogs"
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog , user}) => {
   const [likes, setLikes] = useState(blog.likes)
 
   const blogStyle = {
@@ -17,6 +17,14 @@ const Blog = ({ blog }) => {
     setLikes(likes + 1)
     blogService.update(blog.id, {id: blog.id, title: blog.title, author: blog.author, url: blog.url, likes: blog.likes += 1})
   }
+
+  const Poista = () => {
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}`)){
+      blogService.poista(blog.id)
+    }
+    window.location.reload()
+    
+  }
   
   return (
   <div style={blogStyle}>
@@ -27,6 +35,9 @@ const Blog = ({ blog }) => {
       likes {likes} <button onClick={() => Like()}>like</button><br />
       {blog.author} 
       </Togglable>  
+      {blog.user.username === user.username && (
+      <button onClick={() => Poista()}>delete</button>
+      )}
   </div>
   )
 }

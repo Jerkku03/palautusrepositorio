@@ -31,9 +31,9 @@ const Blog = ({ blog , user }) => {
       <h3>{blog.title}</h3>
       <Togglable buttonLabel="view">
         <br />
-        {blog.url} <br />
-      likes {likes} <button onClick={() => Like()}>like</button><br />
-        {blog.author}
+        <div data-testid='url'>{blog.url} </div><br />
+        <div data-testid='likes'>likes </div> {likes} <button onClick={() => Like()}>like</button><br />
+        <div data-testid='author'>{blog.author}</div>
       </Togglable>
       {blog.user.username === user.username && (
         <button onClick={() => Poista()}>delete</button>

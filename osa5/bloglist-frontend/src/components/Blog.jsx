@@ -28,7 +28,7 @@ const Blog = ({ blog , user }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title}
+      <h3>{blog.title}</h3>
       <Togglable buttonLabel="view">
         <br />
         {blog.url} <br />

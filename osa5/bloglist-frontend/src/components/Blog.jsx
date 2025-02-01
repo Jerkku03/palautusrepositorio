@@ -2,7 +2,7 @@ import Togglable from './Togglable'
 import blogService from '../services/blogs'
 import { useState } from 'react'
 
-const Blog = ({ blog , user }) => {
+const Blog = ({ blog , user, }) => {
   const [likes, setLikes] = useState(blog.likes)
 
   const blogStyle = {

@@ -28,11 +28,13 @@ const Blog = ({ blog , user, }) => {
 
   return (
     <div style={blogStyle}>
-      <h3>{blog.title}</h3>
+      <h3 data-testid='blogTitle'>{blog.title}</h3>
       <Togglable buttonLabel="view">
         <br />
         <div data-testid='url'>{blog.url} </div><br />
-        <div data-testid='likes'>likes </div> {likes} <button onClick={() => Like()}>like</button><br />
+        <button onClick={() => Like()}>like</button><br />
+        <div>likes</div> 
+        <div data-testid='blogLikes'>{likes}</div> 
         <div data-testid='author'>{blog.author}</div>
       </Togglable>
       {blog.user.username === user.username && (

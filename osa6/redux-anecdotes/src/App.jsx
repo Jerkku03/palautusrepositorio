@@ -1,30 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux'
-import reducer, { likeAnecdote } from './reducers/anecdoteReducer'
 import NewAnecdote from './components/NewAnecdote'
+import Anecdotes from './components/Anecdotes'
 
 const App = () => {
-  const anecdotes = useSelector(state => state)
-  const dispatch = useDispatch()
-
-  const vote = (id) => {
-    dispatch(likeAnecdote(id))
-    console.log('vote', id)
-  }
-
   return (
     <div>
-      <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      )}
+      <Anecdotes/>
       <NewAnecdote/>
     </div>
   )

@@ -35,10 +35,11 @@ const reducer = (state = initialState, action) => {
     )
     case "NEW_ANECDOTE":
       return [...state, action.payload]
-
+      
     default:
       return state
   }
+  
 }
 
 export const likeAnecdote = (id) => {

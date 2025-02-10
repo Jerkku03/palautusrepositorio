@@ -26,4 +26,5 @@ const Anecdotes = () => {
     )
 }
 
+
 export default Anecdotes

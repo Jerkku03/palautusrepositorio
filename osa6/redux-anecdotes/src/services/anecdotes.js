@@ -17,7 +17,7 @@ const addVote = async (content) => {
   const id = content
   const item = await axios.get(`${baseUrl}/${id}`)
   console.log(item)
-  const newItem = {...item.data, votes: item.data.votes + 1}
+  const newItem = { ...item.data, votes: item.data.votes + 1 }
   const added = await axios.put(`${baseUrl}/${id}`, newItem)
 }
 

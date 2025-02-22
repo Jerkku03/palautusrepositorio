@@ -9,23 +9,19 @@ const AnecdoteForm = () => {
 
   const newAnecdoteMutation = useMutation({
     mutationFn: createAnecdote,
-    onSuccess: queryClient.invalidateQueries({ queryKey: ['anecdotes'] })
-    
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['anecdotes'] }),
+    onError: () => {dispatch({type: 'showNotification', payload: 'täytyy sisältää yli 5 merkkiä'})
+    setTimeout(() => {dispatch({type: 'dontShowNotification'})}, 5000)}
   })
 
   const onCreate = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
-    if (content.length < 5){
-      dispatch({type: 'showNotification', payload: 'pitää sisältää yli 5 merkkiä'})
-      setTimeout(() => {dispatch({type: 'dontShowNotification'})}, 5000)
-      return
-    } 
-    dispatch({type: 'showNotification', payload: `${content} added`})
-    setTimeout(() => {dispatch({type: 'dontShowNotification'})}, 5000)
     event.target.anecdote.value = ''
 
     newAnecdoteMutation.mutate({content, id: (100000 * Math.random()).toFixed(0), votes: 0})
+    dispatch({type: 'showNotification', payload: `${content} added`})
+    setTimeout(() => {dispatch({type: 'dontShowNotification'})}, 5000)
 }
 
   return (

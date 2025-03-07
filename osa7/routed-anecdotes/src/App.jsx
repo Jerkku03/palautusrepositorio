@@ -9,7 +9,8 @@ import {
   Link,
   Navigate,
   useNavigate,
-  useMatch
+  useMatch,
+  useParams
 } from "react-router-dom"
 
 const Menu = () => {
@@ -33,6 +34,22 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdotes }) => {
+  const id = useParams().id
+  const anecdote = anecdotes.find(n => n.id === Number(id))
+  return (
+    <div>
+      <h2>{anecdote.content} by {anecdote.author}</h2>
+      <div>has {anecdote.votes} votes</div>
+      <br />
+      <div>for more info see <a href={anecdote.info}>http://wiki.c2.com/?PrematureOptimization</a></div>
+      <br />
+      <div><strong>{anecdote.important ? 'important' : ''}</strong></div>
+    
+    </div>
+  )
+}
 
 const About = () => (
   <div>
@@ -141,6 +158,7 @@ const App = () => {
 
       <Routes>
         <Route path='/anecdotes' element={<AnecdoteList anecdotes={anecdotes}/>} />
+        <Route path='/anecdotes/:id' element={<Anecdote anecdotes={anecdotes}/>} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>} />

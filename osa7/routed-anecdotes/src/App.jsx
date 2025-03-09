@@ -19,9 +19,9 @@ const Menu = () => {
   }
   return (
     <div>
-      <a href='/anecdotes' style={padding}>anecdotes</a>
-      <a href='/create' style={padding}>create new</a>
-      <a href='/about' style={padding}>about</a>
+      <Link style={padding} to='/anecdotes'>anecdotes</Link>
+      <Link style={padding} to='/create'>create new</Link>
+      <Link style={padding} to='/about'>about</Link>
     </div>
   )
 }
@@ -74,6 +74,8 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
+
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -87,6 +89,10 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+
+    props.newNotification(content)
+
+    navigate('/')
   }
 
   return (
@@ -137,6 +143,13 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
+  const newNotification = (content) => {
+    setTimeout(() => {
+      setNotification('')
+    }, 5000)
+    setNotification(`${content}lisätty`)
+  }
+
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
 
@@ -154,13 +167,17 @@ const App = () => {
 
   return (
     <div>
+      {notification.length > 0 && 
+      <div>{notification}</div>
+      }
       <h1>Software anecdotes</h1>
       <Menu />
 
       <Routes>
         <Route path='/anecdotes' element={<AnecdoteList anecdotes={anecdotes}/>} />
+        {console.log(anecdotes)}
         <Route path='/anecdotes/:id' element={<Anecdote anecdotes={anecdotes}/>} />
-        <Route path='/create' element={<CreateNew addNew={addNew} />} />
+        <Route path='/create' element={<CreateNew addNew={addNew} newNotification={newNotification}/>} />
         <Route path="/about" element={<About />} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>} />
       </Routes>

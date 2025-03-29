@@ -81,8 +81,10 @@ const CreateNew = (props) => {
   const info = useField('info')
 
   const handleReset = (e) => {
-    e.preventDefault()
-
+    e.preventDefault() 
+    content.onReset()
+    author.onReset()
+    info.onReset()
   }
 
   const handleSubmit = (e) => {
@@ -94,7 +96,7 @@ const CreateNew = (props) => {
       votes: 0
     })
 
-    props.newNotification(content)
+    props.newNotification(content.value)
 
     navigate('/')
   }
@@ -117,7 +119,6 @@ const CreateNew = (props) => {
         </div>
         <button onClick={handleSubmit}>create</button>
         <button onClick={handleReset}>reset</button>
-        <button>reset</button>
       </form>
     </div>
   )
@@ -153,7 +154,7 @@ const App = () => {
     setTimeout(() => {
       setNotification('')
     }, 5000)
-    setNotification(`${content.value}lisätty`)
+    setNotification(`${content}lisätty`)
   }
 
   const anecdoteById = (id) =>
